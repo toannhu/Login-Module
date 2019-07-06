@@ -21,6 +21,6 @@ java -jar ./dist/HomeTest-1.0-jar-with-dependencies.jar
 
 ## Support
 
-If you have any questions, please contact to us follow this email:
+If you have any questions, please contact to me follow this email:
 
 **toanbk21096@gmail.com**
