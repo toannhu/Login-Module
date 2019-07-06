@@ -16,8 +16,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -166,7 +164,7 @@ public class MainLogin {
                                     System.out.println("Password is invalid. Must meet the criteria: ");
                                     System.out.println("- The password must not contain any whitespace");
                                     System.out.println("- The password must be at least 6 characters long");
-                                    System.out.println("- The password must contain at least one uppercase and at least one lowercase letter.");
+                                    System.out.println("- The password must contain at least one uppercase and at least one lowercase letter");
                                     System.out.println("- The password must have at least one digit and symbol");
                                     System.out.println("=====================================================");
                                     System.out.println("Please enter password: ");
@@ -206,7 +204,7 @@ public class MainLogin {
                             System.out.println("Password is invalid. Must meet the criteria: ");
                             System.out.println("- The password must not contain any whitespace");
                             System.out.println("- The password must be at least 6 characters long");
-                            System.out.println("- The password must contain at least one uppercase and at least one lowercase letter.");
+                            System.out.println("- The password must contain at least one uppercase and at least one lowercase letter");
                             System.out.println("- The password must have at least one digit and symbol");
                             System.out.println("=====================================================");
                         }
@@ -240,12 +238,36 @@ public class MainLogin {
                                 && !PasswordManager.getInstance().getUsername().isEmpty()
                                 && PasswordManager.getInstance().getPassword() != null
                                 && !PasswordManager.getInstance().getPassword().isEmpty()) {
+                            System.out.println("User has already login to the system");
                             System.out.println("Please enter new password: ");
                             String newPassword = scanner.next();
                             System.out.println("Please reenter new password: ");
                             String confirmNewPassword = scanner.next();
                             if (newPassword.equals(confirmNewPassword)) {
-                                PasswordManager.getInstance().setNewPassword(newPassword);
+                                if (PasswordManager.getInstance().verifyPassword(newPassword)) {
+                                    System.out.println("Your new password is the same with old password. Please use different password");
+                                    continue;
+                                }
+                                while (!PasswordManager.getInstance().setNewPassword(newPassword)) {
+                                    System.out.println("Password is invalid. Must meet the criteria: ");
+                                    System.out.println("- The password must not contain any whitespace");
+                                    System.out.println("- The password must be at least 6 characters long");
+                                    System.out.println("- The password must contain at least one uppercase and at least one lowercase letter");
+                                    System.out.println("- The password must have at least one digit and symbol");
+                                    System.out.println("=====================================================");
+                                    System.out.println("Please enter new password: ");
+                                    newPassword = scanner.next();
+                                    System.out.println("Please reenter new password: ");
+                                    confirmNewPassword = scanner.next();
+                                    while (!newPassword.equals(confirmNewPassword)) {
+                                        System.out.println("New password and confirmed new password are not match!");
+                                        System.out.println("=====================================================");
+                                        System.out.println("Please enter new password: ");
+                                        newPassword = scanner.next();
+                                        System.out.println("Please reenter new password: ");
+                                        confirmNewPassword = scanner.next();
+                                    }
+                                }
                                 changePassword(PasswordManager.getInstance().getUsername(), PasswordManager.getInstance().getPassword());
                             } else {
                                 System.out.println("New password and confirm new password are not match");
